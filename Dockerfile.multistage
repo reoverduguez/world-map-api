@@ -1,0 +1,17 @@
+# Build go application
+FROM golang:latest AS build-stage
+
+WORKDIR /src
+
+COPY . /src
+
+RUN go build -o main cmd/app/main.go 
+
+EXPOSE 8080
+
+CMD [ "./main" ]
+
+# Run the tests in the container
+FROM build-stage AS test-stage
+
+RUN go test -v ./...

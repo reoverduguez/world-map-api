@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web-server:
+    container_name: nginx-server
+    build: ./nginx
+    ports: 
+      - "80:80"
+    depends_on:
+      - api
+  api:
+    container_name: go-api
+    environment:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SERVER_PORT=${SERVER_PORT}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
